@@ -1,0 +1,18 @@
+﻿###
+@hostname = localhost
+@port = 7224
+GET https://{{hostname}}:{{port}}/it/213/sdfsj
+
+###
+GET https://{{hostname}}:{{port}}/it/true/words
+###
+POST https://{{hostname}}:{{port}}/it/true/words
+
+###
+GET https://{{hostname}}:{{port}}/it/32.54/stri
+###
+DELETE https://{{hostname}}:{{port}}/it/32.54/stri
+###
+PUT https://{{hostname}}:{{port}}/it/qwe/105
+###
+POST https://{{hostname}}:{{port}}/it/test@gmail.com

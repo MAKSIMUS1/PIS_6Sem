@@ -1,0 +1,14 @@
+﻿@using lab3b_vd.Components
+
+@model FormButtonComponent
+
+<form method="@Model.Method" action="@Model.Action" class="@Model.FormClassName">
+    <button type="submit" class="@Model.ClassName">
+        @Model.Text
+    </button>
+
+    @for (var i = 0; i < Model.HiddenKeys?.Length; i++)
+    {
+        <input type="hidden" class="position-absolute" name="@Model.HiddenKeys[i]" value="@Model.HiddenValues[i]" />
+    }
+</form>

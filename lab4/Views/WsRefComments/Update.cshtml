@@ -1,0 +1,17 @@
+﻿@model WsRegComment
+
+<div class="d-flex gap-2 p-3">
+    <h1 class="h1">Update comment @Model.Id</h1>
+</div>
+
+<form method="post" action="/WsRefComments/Update" class="form-control p-2 border rounded-2 border-1 d-flex flex-column gap-2">
+    <input name="comment" class="form-control" value="@Model.Comment" placeholder="Comment..." />
+    <input name="id" class="position-absolute invisible" value="@Model.Id" />
+
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-success">Ok</button>
+        <a href="/WsRef" class="btn btn-info">Cancel</a>
+    </div>
+
+    @await Html.PartialAsync("ErrorsBlock")
+</form>

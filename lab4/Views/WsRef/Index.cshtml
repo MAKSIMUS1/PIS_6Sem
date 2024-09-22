@@ -1,0 +1,131 @@
+﻿@using lab3b_vd.Components
+@model IEnumerable<WsRef>
+
+<div class="d-flex gap-2 p-3">
+    @if (User.IsInRole("Owner"))
+    {
+        <a href="/WsRef/Insert" class="btn btn-info">Insert</a>
+    }
+    <button class="to-filter btn btn-info">Filter</button>
+    @if (ViewBag.IsWithFilter)
+    {
+        <a href="/WsRef" class="btn btn-info">Reset filter</a>
+    }
+</div>
+
+<div class="filter-block flex-column gap-2 w-50 p-4">
+    <input class="filter-text form-control" placeholder="Filter text..."/>
+    <button class="btn btn-info">Filter</button>
+</div>
+
+<div class="w-100 d-flex flex-column p-3 gap-4">
+    @foreach (var wsRef in Model) {
+        <div class="d-flex gap-2 border border-1 rounded-2 p-2 align-items-center">
+            @if (User.IsInRole("Owner")) 
+            {
+                @await Html.PartialAsync("FormButton", new FormButtonComponent() {
+                    Text = "Delete",
+                    Method = "post",
+                    Action = $"/WsRef/Delete?Id={wsRef.Id}",
+                    ClassName = "btn btn-danger",
+                    FormClassName = "delete-form"
+                })
+                <a class="btn btn-primary" href="/WsRef?updateId=@wsRef.Id">Edit</a>
+                @await Html.PartialAsync("FormButton", new FormButtonComponent()
+                {
+                    Text = $"+{wsRef.Plus}",
+                    Method = "post",
+                    Action = $"/WsRef/{wsRef.Id}/Plus",
+                    ClassName = "btn btn-dark"
+                })
+                @await Html.PartialAsync("FormButton", new FormButtonComponent()
+                {
+                    Text = $"-{wsRef.Minus}",
+                    Method = "post",
+                    Action = $"/WsRef/{wsRef.Id}/Minus",
+                    ClassName = "btn btn-dark"
+                })
+            } else 
+            {
+                <span class="d-block p-1 rounded-1 bg-primary bg-opacity-10">+@wsRef.Plus</span>
+                <span class="d-block p-1 rounded-1 bg-danger bg-opacity-10">-@wsRef.Minus</span>
+            }
+            <a class="btn btn-primary" href="/WsRef?comments=@wsRef.Id">Comments</a>
+            <span>[@wsRef.Id]</span>
+            <a class="link-info" href="@wsRef.Url">@wsRef.Description</a>
+        </div>
+
+        @if (ViewBag.UpdatedId is not null && ViewBag.UpdatedId == wsRef.Id)
+        {
+            <form method="post" action="/WsRef/Update" class="d-flex flex-column form-control border border-1 rounded-2 p-2 gap-2">
+                <input name="url" class="form-control" value="@wsRef.Url"/>
+                <input name="description" class="form-control" value="@wsRef.Description" />
+                <input name="id" value="@wsRef.Id" class="position-absolute invisible"/>
+                <button type="submit" class="btn btn-success">Update</button>
+            </form>
+        }
+
+        @if (ViewBag.CommentsInfo is not null && ViewBag.CommentsInfo.WsRefId == wsRef.Id)
+        {
+            <div class="d-flex flex-column gap-3 border border-1 rounded-2 p-2 overflow-scroll overflow-auto" style="max-height: 350px">
+                @foreach(WsRegComment comment in ViewBag.CommentsInfo.Comments)
+                {
+                    <div class="w-100 d-flex flex-column gap-1">
+                        @if (ViewBag.SessionId == comment.SessionId || User.IsInRole("Owner"))
+                        {
+                            <div class="d-flex gap-2">
+                                <a href="/WsRefComments/Update?commentId=@comment.Id" class="btn btn-info">Update</a>
+                                <a href="/WsRefComments/Delete?commentId=@comment.Id" class="btn btn-danger delete-comment">Delete</a>
+                            </div>
+                        }
+                        <div class="d-flex align-content-center justify-content-between w-100 gap-2 p-2 bg-primary bg-opacity-10 rounded-2">
+                            <div class="text-black">@comment.Comment</div>
+                            <div class="text-black">@comment.Stamp</div>
+                        </div>
+                    </div>
+                }
+                <a class="btn btn-dark" href="/WsRefComments/Add?to=@wsRef.Id">Insert comment</a>
+            </div>
+        }
+    }
+</div>
+
+<script>
+    const filterBlock = document.querySelector('.filter-block');
+
+    filterBlock.style.display = "none";
+
+    document.querySelector('.to-filter').addEventListener('click', () => {
+        const value = filterBlock.style.display;
+        filterBlock.style.display = value === "none" ? "flex" : "none";
+    });
+
+    document.querySelector('.filter-block button').addEventListener('click', () => {
+        const filterText = document.querySelector('.filter-text').value;
+        window.location.href = `/WsRef?filter=${filterText}`;
+    });
+
+    const deleteForms = [...document.querySelectorAll('.delete-form')];
+
+    deleteForms.forEach(el => 
+        el.addEventListener('submit', (e) => {
+            const isDelete = confirm('Are you sure?');
+            if (isDelete) {
+                return;
+            }
+            e.preventDefault();
+        }))
+
+    const deleteComments = [...document.querySelectorAll('.delete-comment')];
+
+    deleteComments.forEach(el => 
+        el.addEventListener('click', (e) => {
+            const isDelete = confirm('Are you sure?');
+            if (isDelete) {
+                return;
+            }
+            e.preventDefault();
+        }))
+
+
+</script>
