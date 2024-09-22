@@ -1,65 +1,80 @@
-# Игнорировать сборочные файлы
-*.exe
-*.out
-*.app
-*.dll
-*.so
-*.dylib
+# Игнорировать сборочные папки
+bin/
+obj/
 
-# Игнорировать объектные файлы и файлы промежуточной сборки
-*.o
-*.obj
-*.lo
-*.d
+# Игнорировать пользовательские файлы Visual Studio
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
 
-# Игнорировать статические библиотеки
-*.lib
-*.a
-
-# Игнорировать динамические библиотеки
-*.dylib
-*.dll
-*.so
-
-# Игнорировать временные файлы компиляции
-*.gch
-*.pch
-*.ipch
-
-# Игнорировать файлы отладочных данных
-*.pdb
-*.ilk
-
-# Игнорировать файлы временных данных и IDE
+# Игнорировать файлы кэширования и временные файлы Visual Studio
+.vscode/
+.idea/
+.vs/
+.vscode/
+*.vscode
+*.tlog
 *.log
+*.ide
+.ipch
+*.pdb
+*.opendb
+*.sln.cache
+
+# Игнорировать файлы зависимостей и сборок
+*.dll
+*.exe
+*.app
+*.lib
+*.out
+*.log
+*.vsix
+*.nupkg
+
+# Игнорировать временные файлы
 *.tmp
 *.temp
 *.cache
-*.bak
+*.diff
+*.patch
 
-# Игнорировать CMake и Makefile артефакты
-CMakeCache.txt
-CMakeFiles/
-cmake_install.cmake
-Makefile
-build/
-*.make
-*.ninja
-*.sln
-*.vcxproj
-*.vcxproj.filters
-*.vcxproj.user
+# Игнорировать файлы тестирования и отчетов
+TestResults/
+*.coverage
+*.coveragexml
+*.trx
+*.testsettings
+*.vsmdi
+*.tss
 
-# Игнорировать пользовательские настройки IDE
+# Игнорировать конфигурационные файлы, специфичные для среды
+*.config
+*.cfg
+*.ini
+
+# Игнорировать артефакты сборки .NET
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Игнорировать файлы NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+NuGet.Config
+NuGet.exe
+NuGetScratch/
+
+# Игнорировать файлы, связанные с ReSharper и Rider
+_ReSharper*/
+*.DotSettings.user
 .idea/
-.vscode/
-*.code-workspace
 
-# Игнорировать файлы системы контроля версий
-*.swp
-*.swo
-*.swn
+# Игнорировать файлы Azure Functions
+local.settings.json
+AzureFunctionAppLogs/
 
-# Игнорировать файлы ОС
-.DS_Store
-Thumbs.db
+# Игнорировать файлы публикации
+publish/
